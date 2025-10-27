@@ -1,0 +1,2132 @@
+{
+	"info": {
+		"_postman_id": "7ca32a52-402a-4e8b-9677-2f4443df8740",
+		"name": "Hotel Booking System",
+		"description": "The Hotel Booking System backend is built to manage the core functionalities required for a hotel reservation system. It includes user management, customer data storage, booking information, and room details.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "30450637"
+	},
+	"item": [
+		{
+			"name": "Users",
+			"item": [
+				{
+					"name": "Login",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"",
+									"pm.test(\"Response status code is 200\", function () {",
+									"    pm.expect(pm.response.code).to.equal(200);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Response has the required fields\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData).to.be.an('object');",
+									"    pm.expect(responseData.authToken).to.exist.and.to.be.a('string');",
+									"});",
+									"",
+									"",
+									"pm.test(\"AuthToken is a non-empty string\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.authToken).to.be.a('string').and.to.have.length.above(0, \"AuthToken should be a non-empty string\");",
+									"});",
+									"",
+									"",
+									"pm.test(\"AuthToken is in a valid JWT format\", function () {",
+									"    const responseData = pm.response.json();",
+									"    ",
+									"    pm.expect(responseData.authToken).to.be.a('string');",
+									"    pm.expect(responseData.authToken).to.match(/^[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_=]+\\.[A-Za-z0-9-_.+/=]+$/);",
+									"});",
+									"",
+									"",
+									"pm.test(\"Content-Type header is application/json\", function () {",
+									"    pm.expect(pm.response.headers.get(\"Content-Type\")).to.include(\"application/json\");",
+									"});",
+									"",
+									"pm.globals.get(\"variable_key\");"
+								],
+								"type": "text/javascript",
+								"packages": {},
+								"requests": {}
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OGM3NmNjMmFlYjQ4ZGQ5MGFjNTliNCIsImlhdCI6MTcwMzcwNDI3Mn0.Hq777D-zaKoyjVTPs2tod1bmA1ovPX2eVDv10FiJlAo",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"username\":\"admin\",\n    \"password\":\"admin123\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/login",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"login"
+							]
+						},
+						"description": "### API Request Description\n\nThis endpoint allows users to log in by sending a POST request with their username and password in the request body.\n\n#### Request Body\n\n- `username` (string, required): The username of the user.\n- `password` (string, required): The password of the user.\n    \n\n#### Example Request\n\n``` json\n{\n    \"username\": \"example_username\",\n    \"password\": \"example_password\"\n}\n\n ```\n\n### Response\n\n- `authToken` (string): A token generated upon successful login.\n    \n\n#### Example Response\n\n``` json\n{\n    \"authToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Login Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"username\":\"Zulfiqar\",\n    \"password\":\"12345\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1000/api/user/login",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"user",
+										"login"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Set-Cookie",
+									"value": "authToken=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OGMxODUyMzY1MGQ4NjkxMTlhNWFlOCIsInVzZXJuYW1lIjoiWnVsZmlxYXIiLCJpYXQiOjE3MDM3MTA0NjR9.vbVLqzc11oHfsOJfBaIrsWYGsOI0BW71hxf2euGmqTg; Path=/; HttpOnly; SameSite=Lax"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "193"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"c1-Z5dAJqhjQJyVzZm5PR34PsoGMc0\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 27 Dec 2023 20:54:24 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"authToken\": \"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1OGMxODUyMzY1MGQ4NjkxMTlhNWFlOCIsInVzZXJuYW1lIjoiWnVsZmlxYXIiLCJpYXQiOjE3MDM3MTA0NjR9.vbVLqzc11oHfsOJfBaIrsWYGsOI0BW71hxf2euGmqTg\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get All Users",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/getAllUsers",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"getAllUsers"
+							]
+						},
+						"description": "This endpoint makes an HTTP GET request to retrieve all user data from the server. The request does not contain a request body.\n\nThe response to this request will have a status code of 200, indicating a successful request. The response body will contain an array of objects, where each object represents a user. Each user object includes properties such as _id, role, username, password, email, phoneNo, address, salary, createdAt, and __v.\n\nHere are some examples of the response data:\n\n- An object representing a receptionist with properties like _id, role, username, password, email, phoneNo, address, salary, createdAt, and __v.\n- An object representing an admin with similar properties including _id, role, username, password, email, phoneNo, address, salary, createdAt, and __v.\n- Additional properties like age and dob may also be present in the response for certain users."
+					},
+					"response": [
+						{
+							"name": "Get All Users Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1000/api/user/getAllUsers",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"user",
+										"getAllUsers"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "1143"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"477-JfI2fLb4zl2BU1FloY4/V9DBg8U\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 13:12:51 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"658c18523650d869119a5ae8\",\n        \"role\": \"receptionist\",\n        \"username\": \"Zulfiqar\",\n        \"password\": \"$2a$10$e.cQpDhekYsdwn2HJ84H3eW9M1cIA/Cp5tI/zqRKMvS2FD18UkxTa\",\n        \"email\": \"zulfiqarfaisal@gmail.com\",\n        \"phoneNo\": 3112451737,\n        \"address\": \"Lahore\",\n        \"salary\": 40000,\n        \"createdAt\": \"2023-12-27T12:28:02.770Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"658c76cc2aeb48dd90ac59b4\",\n        \"role\": \"admin\",\n        \"username\": \"Jonny\",\n        \"password\": \"$2a$10$XSqAzxs2r9S.Sn.fc0KGj.SOHZH7AINJm8dEmO4mb.7Xfrvn1XZWa\",\n        \"email\": \"jonny@gmail.com\",\n        \"phoneNo\": 3112451738,\n        \"address\": \"Lahore\",\n        \"salary\": 10,\n        \"createdAt\": \"2023-12-27T19:11:08.069Z\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"658d29c3f5dfc61b94cf245b\",\n        \"role\": \"admin\",\n        \"username\": \"Henry\",\n        \"password\": \"$2a$10$yxCO.dNaX6O3B1eTjBDfe.3zQDcI2CAr7dD9Z6m84T2PF/CIT0ZYS\",\n        \"email\": \"henry@gmail.com\",\n        \"phoneNo\": 13418841294,\n        \"address\": \"Lahore\",\n        \"salary\": 10000,\n        \"age\": 33,\n        \"createdAt\": \"2023-12-28T07:54:43.436Z\",\n        \"__v\": 0,\n        \"dob\": \"1990-01-11T19:00:00.000Z\"\n    },\n    {\n        \"_id\": \"658d57baacb89dd7b3bafb4a\",\n        \"role\": \"admin\",\n        \"username\": \"Haily\",\n        \"password\": \"$2a$10$HXP/UFzJNY5nwmx.LduUa.B8CH4Z6KxJkI/1kmPcn4O46EXUeP0jq\",\n        \"email\": \"haily@gmail.com\",\n        \"phoneNo\": 311245176898,\n        \"address\": \"Lahore\",\n        \"salary\": 10,\n        \"createdAt\": \"2023-12-28T11:10:50.558Z\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create User",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n        \"username\": \"Haris\",\n        \"role\": \"receptionist\",\n        \"password\": \"12345\",\n        \"email\": \"haris@gmail.com\",\n        \"phoneNo\": \"311245176894\",\n        \"address\": \"Lahore\",\n        \"salary\": 10\n     \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/createUser",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"createUser"
+							]
+						},
+						"description": "This endpoint allows you to create a new user by sending a POST request to the specified URL. The request should include the user details such as username, role, password, email, phone number, address, salary, age, gender, and date of birth in the request body.\n\n### Request Body\n\n- `username` (string, required): The username of the user.\n    \n- `role` (string, required): The role of the user.\n    \n- `password` (string, required): The password for the user account.\n    \n- `email` (string, required): The email address of the user.\n    \n- `phoneNo` (number, required): The phone number of the user.\n    \n- `address` (string, required): The address of the user.\n    \n- `salary` (number, required): The salary of the user.\n    \n- `age` (number): The age of the user.\n    \n- `gender` (string): The gender of the user.\n    \n- `dateOfBirth` (string): The date of birth of the user.\n    \n\n### Response\n\nUpon successful creation of the user, the API will return a status code of 200 along with a JSON response containing a message confirming the successful creation of the user.\n\n#### Example Response\n\n``` json\n{\n    \"message\": \"User created successfully.\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Create User Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n        \"username\": \"Henry\",\n        \"role\": \"receptionist\",\n        \"password\": \"1234567\",\n        \"email\": \"henry@gmail.com\",\n        \"phoneNo\": 311245176898,\n        \"address\": \"Lahore\",\n        \"salary\": 10\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1000/api/user/createUser",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"user",
+										"createUser"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "40"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"28-7+J4ujuF1IVyrzd07WLRpzlET2Y\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 06:52:15 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User created successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get User By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/getUser/68ff763a44109d373f58cc7a",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"getUser",
+								"68ff763a44109d373f58cc7a"
+							]
+						},
+						"description": "# Get User Details\n\nThis endpoint retrieves the details of a specific user based on the provided user ID in the URL.\n\n## Request\n\n### HTTP Request\n\n``` http\nGET http://localhost:1000/api/user/getUser/{UserId}\n\n ```\n\n### Request Body\n\nThe request does not contain a request body.\n\n## Response\n\n### Success Response\n\n- Status: 200\n    \n\n#### Example\n\n``` json\n{\n    \"_id\": \"658c18523650d869119a5ae8\",\n    \"role\": \"admin\",\n    \"username\": \"Zulfiqar\",\n    \"password\": \"$2a$10$e.cQpDhekYsdwn2HJ84H3eW9M1cIA/Cp5tI/zqRKMvS2FD18UkxTa\",\n    \"email\": \"zulfiqarfaisal@gmail.com\",\n    \"phoneNo\": 3112451737,\n    \"address\": \"Lahore\",\n    \"salary\": 40,\n    \"createdAt\": \"2023-12-27T12:28:02.770Z\",\n    \"__v\": 0\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Get User By Id Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1000/api/user/getUser/658c18523650d869119a5ae8",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"user",
+										"getUser",
+										"658c18523650d869119a5ae8"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "279"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"117-JV0QEmLWZsSaxL8vCG51Wwdtzgc\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 06:52:37 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"658c18523650d869119a5ae8\",\n    \"role\": \"admin\",\n    \"username\": \"Zulfiqar\",\n    \"password\": \"$2a$10$e.cQpDhekYsdwn2HJ84H3eW9M1cIA/Cp5tI/zqRKMvS2FD18UkxTa\",\n    \"email\": \"zulfiqarfaisal@gmail.com\",\n    \"phoneNo\": 3112451737,\n    \"address\": \"Lahore\",\n    \"salary\": 40,\n    \"createdAt\": \"2023-12-27T12:28:02.770Z\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Update User",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"salary\":50000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/user/updateUser/68ff763a44109d373f58cc7a",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"updateUser",
+								"68ff763a44109d373f58cc7a"
+							]
+						},
+						"description": "This endpoint allows you to update a specific user using their unique identifier provided in the URL.\n\n### Request\n\n**Endpoint**\n\n```\nPUT http://localhost:1000/api/user/updateUser/{UserId}\n\n ```\n\n**Request Body:**\n\nCan provide any feild you want to update.\n\n- `salary` (number): The updated salary of the user.\n    \n\n### Response\n\n- `message` (string): A message indicating the outcome of the update operation.\n    \n\nExample response:\n\n```\n{\n    \"message\": \"User updated successfully.\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Update User Response",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"salary\":40000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1000/api/user/updateUser/658c18523650d869119a5ae8",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"user",
+										"updateUser",
+										"658c18523650d869119a5ae8"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "40"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"28-qYP6/3Ae02+jXG5h5HS0Bz04il0\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 06:53:02 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User updated successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete User",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/user/deleteUser/68ff76ef44109d373f58cc7f",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"user",
+								"deleteUser",
+								"68ff76ef44109d373f58cc7f"
+							]
+						},
+						"description": "This endpoint sends an HTTP DELETE request to delete a specific user identified by the provided user ID. The user ID is included in the URL path. The request does not include a request body.\n\nThe response will have a status code of 200, indicating a successful deletion, and will include a JSON object with a \"message\" key. The value of the \"message\" key will indicate the outcome of the deletion operation.\n\n### Response\n\n- `message`: A string indicating the outcome of the deletion operation. For example, \"User deleted successfully.\""
+					},
+					"response": [
+						{
+							"name": "Delete User Response",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1000/api/user/deleteUser/658d1b1f6e8ec42a6ce956fb",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"user",
+										"deleteUser",
+										"658d1b1f6e8ec42a6ce956fb"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "40"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"28-iS+XjorDKSLBZobM1Oen1Mvryto\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 06:53:49 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"User deleted successfully.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Rooms",
+			"item": [
+				{
+					"name": "Get All Rooms",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/room/getAllRooms",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"room",
+								"getAllRooms"
+							]
+						},
+						"description": "# Get All Rooms\n\nThis endpoint retrieves a list of all available rooms.\n\n### Request\n\n- Method: GET\n- URL: `http://localhost:1000/api/room/getAllRooms`\n- Body: null\n    \n\n### Response\n\nThe response will contain an array of room objects, where each room object includes the following properties:\n\n- `_id` (string): The unique identifier for the room.\n- `status` (string): The availability status of the room.\n- `number` (string): The room number.\n- `floor` (string): The floor on which the room is located.\n- `beds` (number): The number of beds in the room.\n- `type` (string): The type of the room.\n- `ratePerDay` (number): The rate per day for the room.\n- `createdAt` (string): The timestamp when the room was created.\n- `modifiedAt` (string): The timestamp when the room was last modified.\n- `createdBy` (string): The user who created the room.\n- `modifiedBy` (string): The user who last modified the room.\n- `__v` (number): Version key.\n    \n\n#### Example\n\n``` json\n[\n    {\n        \"_id\": \"658c83f4b30cbe308314775b\",\n        \"status\": \"available\",\n        \"number\": \"A2\",\n        \"floor\": \"First\",\n        \"beds\": 2,\n        \"type\": \"Normal\",\n        \"ratePerDay\": 3500,\n        \"createdAt\": \"2023-12-27T20:07:16.258Z\",\n        \"modifiedAt\": \"2023-12-28T03:14:34.347Z\",\n        \"createdBy\": \"Jonny\",\n        \"modifiedBy\": \"Zulfiqar\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"658ce80aa0c9d5bc492b8f98\",\n        \"status\": \"available\",\n        \"number\": \"A1\",\n        \"floor\": \"First\",\n        \"beds\": 2,\n        \"type\": \"Normal\",\n        \"ratePerDay\": 3000,\n        \"createdAt\": \"2023-12-28T03:14:18.861Z\",\n        \"modifiedAt\": \"2023-12-28T03:14:18.861Z\",\n        \"createdBy\": \"Zulfiqar\",\n        \"modifiedBy\": \"Zulfiqar\",\n        \"__v\": 0\n    }\n]\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Get All Rooms Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1000/api/room/getAllRooms",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"room",
+										"getAllRooms"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "524"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"20c-gobrz/MVTgWUYc4H9b216A+CreI\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 06:55:16 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"658c83f4b30cbe308314775b\",\n        \"status\": \"available\",\n        \"number\": \"A2\",\n        \"floor\": \"First\",\n        \"beds\": 2,\n        \"type\": \"Normal\",\n        \"ratePerDay\": 3500,\n        \"createdAt\": \"2023-12-27T20:07:16.258Z\",\n        \"modifiedAt\": \"2023-12-28T03:14:34.347Z\",\n        \"createdBy\": \"Jonny\",\n        \"modifiedBy\": \"Zulfiqar\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"658ce80aa0c9d5bc492b8f98\",\n        \"status\": \"available\",\n        \"number\": \"A1\",\n        \"floor\": \"First\",\n        \"beds\": 2,\n        \"type\": \"Normal\",\n        \"ratePerDay\": 3000,\n        \"createdAt\": \"2023-12-28T03:14:18.861Z\",\n        \"modifiedAt\": \"2023-12-28T03:14:18.861Z\",\n        \"createdBy\": \"Zulfiqar\",\n        \"modifiedBy\": \"Zulfiqar\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create Room",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n       \"status\": \"Available\",\n      \"number\": \"A5\",\n      \"floor\": \"First\",\n      \"beds\": 2,\n      \"type\": \"Normal\",\n      \"ratePerDay\": 3000\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/room/createRoom",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"room",
+								"createRoom"
+							]
+						},
+						"description": "This HTTP POST request is used to create a new room via the API. The request should include a JSON payload in the raw request body, with parameters for \"status\", \"number\", \"floor\", \"beds\", \"type\", and \"ratePerDay\". The \"status\" parameter represents the status of the room, \"number\" represents the room number, \"floor\" represents the floor number, \"beds\" represents the number of beds in the room, \"type\" represents the type of the room, and \"ratePerDay\" represents the rate per day for the room.\n\n### Request Body\n\n- status (string): Represents the status of the room.\n- number (string): Represents the room number.\n- floor (string): Represents the floor number.\n- beds (number): Represents the number of beds in the room.\n- type (string): Represents the type of the room.\n- ratePerDay (number): Represents the rate per day for the room.\n    \n\n#### Example\n\n``` json\n{\n    \"status\": \"available\",\n    \"number\": \"101\",\n    \"floor\": \"1\",\n    \"beds\": 2,\n    \"type\": \"standard\",\n    \"ratePerDay\": 100\n}\n\n ```\n\n### Response\n\nUpon successful creation of the room, the API responds with a JSON object containing a \"message\" indicating the success of the operation.\n\n#### Example\n\n``` json\n{\n    \"message\": \"Room created successfully.\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Create Room Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n       \"status\": \"available\",\n      \"number\": \"A1\",\n      \"floor\": \"First\",\n      \"beds\": 2,\n      \"type\": \"Normal\",\n      \"ratePerDay\": 3000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1000/api/room/createRoom",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"room",
+										"createRoom"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "40"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"28-zC5m4g11/8gLSjE4vBT97juRUE4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 03:14:18 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Room created successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Room By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/room/getRoom/68ff778444109d373f58cc88",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"room",
+								"getRoom",
+								"68ff778444109d373f58cc88"
+							]
+						},
+						"description": "### Get Room Details\n\nThis endpoint retrieves the details of a specific room identified by the provided room ID in the URL.\n\n#### Request\n\n- Method: GET\n- URL: `http://localhost:1000/api/room/getRoom/{roomId}`\n    \n\n#### Response\n\n- Status: 200 OK\n- Body:\n    \n    ``` json\n      {\n          \"_id\": \"658c83f4b30cbe308314775b\",\n          \"status\": \"available\",\n          \"number\": \"A2\",\n          \"floor\": \"First\",\n          \"beds\": 2,\n          \"type\": \"Normal\",\n          \"ratePerDay\": 3500,\n          \"createdAt\": \"2023-12-27T20:07:16.258Z\",\n          \"modifiedAt\": \"2023-12-28T03:14:34.347Z\",\n          \"createdBy\": \"Jonny\",\n          \"modifiedBy\": \"Zulfiqar\",\n          \"__v\": 0\n      }\n    \n     ```\n    \n\n#### Example\n\n``` json\n{\n    \"_id\": \"658c83f4b30cbe308314775b\",\n    \"status\": \"available\",\n    \"number\": \"A2\",\n    \"floor\": \"First\",\n    \"beds\": 2,\n    \"type\": \"Normal\",\n    \"ratePerDay\": 3500,\n    \"createdAt\": \"2023-12-27T20:07:16.258Z\",\n    \"modifiedAt\": \"2023-12-28T03:14:34.347Z\",\n    \"createdBy\": \"Jonny\",\n    \"modifiedBy\": \"Zulfiqar\",\n    \"__v\": 0\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Get Room By Id Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1000/api/room/getRoom/658c83f4b30cbe308314775b",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"room",
+										"getRoom",
+										"658c83f4b30cbe308314775b"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "259"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"103-pbgPdrAuHn/inAzoowWNZKFS/o0\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 06:56:32 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"658c83f4b30cbe308314775b\",\n    \"status\": \"available\",\n    \"number\": \"A2\",\n    \"floor\": \"First\",\n    \"beds\": 2,\n    \"type\": \"Normal\",\n    \"ratePerDay\": 3500,\n    \"createdAt\": \"2023-12-27T20:07:16.258Z\",\n    \"modifiedAt\": \"2023-12-28T03:14:34.347Z\",\n    \"createdBy\": \"Jonny\",\n    \"modifiedBy\": \"Zulfiqar\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Room",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"number\": \"A3\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/room/updateRoom/68ff778444109d373f58cc88",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"room",
+								"updateRoom",
+								"68ff778444109d373f58cc88"
+							]
+						},
+						"description": "This endpoint allows you to update a specific room identified by its unique ID given in URL. The HTTP PUT request should be made to [http://localhost:1000/api/room/updateRoom/{roomId}](http://localhost:1000/api/room/updateRoom/{roomId})with a JSON payload in the raw request body type. The payload should include the fields we want to update.\n\n### Request Body\n\n- number (string): The updated room number.\n    \n\n### Response\n\n- message (string): A message indicating the result of the room update operation.\n    \n\n#### Example Response\n\n``` json\n{\n    \"message\": \"Room updated successfully.\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Update Room Response",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"number\": \"A2\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1000/api/room/updateRoom/658c83f4b30cbe308314775b",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"room",
+										"updateRoom",
+										"658c83f4b30cbe308314775b"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "40"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"28-1opvcUcdwp7pNbnwjuXUaF0N5H8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 03:14:34 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Room updated successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Room",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/room/deleteRoom/658ce80aa0c9d5bc492b8f98",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"room",
+								"deleteRoom",
+								"658ce80aa0c9d5bc492b8f98"
+							]
+						},
+						"description": "This endpoint sends an HTTP DELETE request to delete a specific room identified by the provided room ID. The room ID is included in the URL path. The request does not include a request body.\n\nThe response will have a status code of 200, indicating a successful deletion, and will include a JSON object with a \"message\" key. The value of the \"message\" key will indicate the outcome of the deletion operation.\n\n### Response\n\n- `message`: A string indicating the outcome of the deletion operation. For example, \"Room deleted successfully.\""
+					},
+					"response": [
+						{
+							"name": "Delete Room Response",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1000/api/room/deleteRoom/658c831bbfb9867411f964d3",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"room",
+										"deleteRoom",
+										"658c831bbfb9867411f964d3"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "40"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"28-hPB7pwJvPClQmmv+0ydhK5ipD10\""
+								},
+								{
+									"key": "Date",
+									"value": "Wed, 27 Dec 2023 20:26:01 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Room deleted successfully.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "CustomerData",
+			"item": [
+				{
+					"name": "Get All Customers Data",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/customerData/getAllCustomersData",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"customerData",
+								"getAllCustomersData"
+							]
+						},
+						"description": "This endpoint makes an HTTP GET request to retrieve all customer data. The response will include an array of objects, where each object represents a customer and contains details such as name, phone number, address, email, age, gender, date of birth, passport number, creation and modification timestamps, and creator/modifier details."
+					},
+					"response": [
+						{
+							"name": "Get All Customers Data Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1000/api/customerData/getAllCustomersData",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"customerData",
+										"getAllCustomersData"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "733"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2dd-Xw4DXlIHS9oV9ieFhiEnTt5d5WA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 06:39:33 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"658ce56fa92d30026014b5c0\",\n        \"name\": \"Harry\",\n        \"phoneNo\": 31245789236,\n        \"address\": \"Lahore\",\n        \"email\": \"harry@gmail.com\",\n        \"age\": 24,\n        \"gender\": \"male\",\n        \"dateOfBirth\": \"1999-01-01T00:00:00.000Z\",\n        \"passportNo\": \"jdsnfjd21256jdncjdnc12324jdnjcnei\",\n        \"createdAt\": \"2023-12-28T03:03:11.667Z\",\n        \"modifiedAt\": \"2023-12-28T03:09:17.872Z\",\n        \"createdBy\": \"Zulfiqar\",\n        \"modifiedBy\": \"Zulfiqar\",\n        \"__v\": 0\n    },\n    {\n        \"_id\": \"658ce5f1abdbbe0ce135271d\",\n        \"name\": \"Henry\",\n        \"phoneNo\": 31245789236,\n        \"address\": \"Lahore\",\n        \"email\": \"henry@gmail.com\",\n        \"age\": 24,\n        \"gender\": \"male\",\n        \"dateOfBirth\": \"1999-01-01T00:00:00.000Z\",\n        \"passportNo\": \"jdsnfjd21256jdncjdnc12324jdnjcneq\",\n        \"createdAt\": \"2023-12-28T03:05:21.775Z\",\n        \"modifiedAt\": \"2023-12-28T03:05:21.775Z\",\n        \"createdBy\": \"Zulfiqar\",\n        \"modifiedBy\": \"Zulfiqar\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create CustomerData",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n      \"name\": \"Henry\",\n      \"phoneNo\": 31245789236,\n      \"address\": \"Lahore\",\n      \"email\": \"henry@gmail.com\",\n      \"age\": 24,\n      \"gender\": \"male\",\n      \"dateOfBirth\": \"1999\",\n      \"passportNo\": \"jdsnfjd21256jdncjdnc12324jdnjcneq\"\n\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/customerData/createCustomerData",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"customerData",
+								"createCustomerData"
+							]
+						},
+						"description": "This endpoint allows you to create customer data by sending an HTTP POST request to the specified URL. The request should include a JSON payload in the raw request body type with the following parameters:\n\n- `name` (string): The name of the customer.\n- `phoneNo` (number): The phone number of the customer.\n- `address` (string): The address of the customer.\n- `email` (string): The email address of the customer.\n- `age` (number): The age of the customer.\n- `gender` (string): The gender of the customer.\n- `dateOfBirth` (string): The date of birth of the customer.\n- `passportNo` (string): The passport number of the customer.\n    \n\n### Response\n\nUpon successful creation of the customer data, the response will be a JSON object with a `message` key indicating the success status, for example:\n\n``` json\n{\n    \"message\": \"Customer created successfully.\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Create CustomerData Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n      \"name\": \"Henry\",\n      \"phoneNo\": 31245789236,\n      \"address\": \"Lahore\",\n      \"email\": \"henry@gmail.com\",\n      \"age\": 24,\n      \"gender\": \"male\",\n      \"dateOfBirth\": \"1999\",\n      \"passportNo\": \"jdsnfjd21256jdncjdnc12324jdnjcneq\"\n\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1000/api/customerData/createCustomerData",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"customerData",
+										"createCustomerData"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "44"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2c-ABRCYLZmJ+8uZRSrvU4qd7VTqW4\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 03:05:21 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Customer created successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get CustomerData By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/customerData/getCustomerData/68ff77f944109d373f58cc90",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"customerData",
+								"getCustomerData",
+								"68ff77f944109d373f58cc90"
+							]
+						},
+						"description": "# Get Customer Data\n\nThis endpoint retrieves the customer data based on the provided customer ID in the URL.\n\n## Request\n\n### Request URL\n\n- Method: GET\n- URL: `http://localhost:1000/api/customerData/getCustomerData/658ce227572f7369cb8d5b6a`\n    \n\n### Request Body\n\n- Type: Undefined\n- Payload: null\n    \n\n## Response\n\n- `_id`: The unique identifier for the customer.\n- `name`: The name of the customer.\n- `phoneNo`: The phone number of the customer.\n- `address`: The address of the customer.\n- `email`: The email address of the customer.\n- `age`: The age of the customer.\n- `gender`: The gender of the customer.\n- `dateOfBirth`: The date of birth of the customer.\n- `passportNo`: The passport number of the customer.\n- `createdAt`: The date and time when the customer data was created.\n- `modifiedAt`: The date and time when the customer data was last modified.\n- `createdBy`: The user who created the customer data.\n- `modifiedBy`: The user who last modified the customer data.\n- `__v`: Version control field."
+					},
+					"response": [
+						{
+							"name": "Get CustomerData By Id Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1000/api/customerData/getCustomerData/658ce227572f7369cb8d5b6a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"customerData",
+										"getCustomerData",
+										"658ce227572f7369cb8d5b6a"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "366"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"16e-oQv8AjIPg0v2tKKVSBRolyVDWMU\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 02:57:56 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"658ce227572f7369cb8d5b6a\",\n    \"name\": \"Harry\",\n    \"phoneNo\": 31245789236,\n    \"address\": \"Karachi\",\n    \"email\": \"harry@gmail.com\",\n    \"age\": 24,\n    \"gender\": \"male\",\n    \"dateOfBirth\": \"1999-01-01T00:00:00.000Z\",\n    \"passportNo\": \"jdsnfjd21256jdncjdnc12324jdnjcnei\",\n    \"createdAt\": \"2023-12-28T02:49:11.124Z\",\n    \"modifiedAt\": \"2023-12-28T02:57:50.046Z\",\n    \"createdBy\": \"Zulfiqar\",\n    \"modifiedBy\": \"Zulfiqar\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Update CustomerData",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"address\":\"Karachi\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/customerData/updateCustomerData/68ff77f944109d373f58cc90",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"customerData",
+								"updateCustomerData",
+								"68ff77f944109d373f58cc90"
+							]
+						},
+						"description": "This HTTP PUT request is used to update customer data by providing the customer ID in the URL. The request should contain a JSON payload in the raw request body type with the updated information.\n\n### Request\n\n- Method: PUT\n- URL: [http://localhost:1000/api/customerData/updateCustomerData/658ce56fa92d30026014b5c0](http://localhost:1000/api/customerData/updateCustomerData/658ce56fa92d30026014b5c0)\n- Body:\n    \n    ``` json\n        {\n            \"address\": \"\"\n        }\n    \n     ```\n    \n\n### Response\n\n- Status: 200\n- Body:\n    \n    ``` json\n        {\n            \"message\": \"\"\n        }\n    \n     ```\n    \n\n#### Example Response\n\n``` json\n{\n    \"message\": \"CustomerData updated successfully.\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Update CustomerData Response",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"passportNo\": \"jdsnfjd21256jdncjdnc12324jdnjcnei\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1000/api/customerData/updateCustomerData/658ce56fa92d30026014b5c0",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"customerData",
+										"updateCustomerData",
+										"658ce56fa92d30026014b5c0"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "48"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"30-06gsCan9plB7oS93KlL8rQSLVgA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 03:09:17 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"CustomerData updated successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete CustomerData",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/customerData/deleteCustomerData/68ff77f944109d373f58cc90",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"customerData",
+								"deleteCustomerData",
+								"68ff77f944109d373f58cc90"
+							]
+						},
+						"description": "This endpoint sends an HTTP DELETE request to delete a specific booking identified by the provided CustomerData ID. The CustomerData ID is included in the URL path. The request does not include a request body.\n\nThe response will have a status code of 200, indicating a successful deletion, and will include a JSON object with a \"message\" key. The value of the \"message\" key will indicate the outcome of the deletion operation.\n\n### Response\n\n- `message`: A string indicating the outcome of the deletion operation. For example, \"CustomerData deleted successfully.\""
+					},
+					"response": [
+						{
+							"name": "Delete CustomerData Response",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1000/api/customerData/deleteCustomerData/658ce227572f7369cb8d5b6a",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"customerData",
+										"deleteCustomerData",
+										"658ce227572f7369cb8d5b6a"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "48"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"30-3RSV1QPFPfH+4palpUAZOhsLNy8\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 02:59:04 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"CustomerData deleted successfully.\"\n}"
+						}
+					]
+				}
+			]
+		},
+		{
+			"name": "Bookings",
+			"item": [
+				{
+					"name": "Get All Bookings",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/booking/getAllBookings",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"booking",
+								"getAllBookings"
+							]
+						},
+						"description": "This endpoint makes an HTTP GET request to retrieve all bookings data. The response will include an array of objects, where each object represents a booking and contains details such as bookingName, status, roomIds, CustomerDataId, payment, paymentFlag, paidAmount, startDate, endDate and modification timestamps, and creator/modifier details."
+					},
+					"response": [
+						{
+							"name": "Get All Bookings Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1000/api/booking/getAllBookings",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"booking",
+										"getAllBookings"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "419"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"1a3-ucv5B9i/4iAf8Xpe2PVQ/j6PQjo\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 06:45:52 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "[\n    {\n        \"_id\": \"658d190734ce8f55b289a050\",\n        \"bookingName\": \"Harry\",\n        \"roomIds\": [\n            \"658c83f4b30cbe308314775b\"\n        ],\n        \"customerId\": \"658ce56fa92d30026014b5c0\",\n        \"status\": \"pending\",\n        \"payment\": 7000,\n        \"paidAmount\": 1000,\n        \"paymentFlag\": false,\n        \"startDate\": \"2023-12-27T19:00:00.000Z\",\n        \"endDate\": \"2023-12-28T19:00:00.000Z\",\n        \"createdAt\": \"2023-12-28T06:43:19.666Z\",\n        \"modifiedAt\": \"2023-12-28T06:45:29.513Z\",\n        \"createdBy\": \"Zulfiqar\",\n        \"modifiedBy\": \"Zulfiqar\",\n        \"__v\": 0\n    }\n]"
+						}
+					]
+				},
+				{
+					"name": "Create Booking",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n       \"bookingName\": \"Harry\",\n      \"roomIds\": [\"68ff778444109d373f58cc88\"],\n      \"customerId\": \"68ff77f944109d373f58cc90\",\n      \"status\": \"Confirmed\",\n      \"payment\": 7000,\n      \"paidAmount\": 0,\n      \"paymentFlag\": \"false\",\n      \"startDate\": \"2024-05-09\",\n      \"endDate\": \"2024/07/09\"\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/booking/createBooking",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"booking",
+								"createBooking"
+							]
+						},
+						"description": "This API endpoint allows you to create a new booking. The HTTP POST request should be sent to [http://localhost:1000/api/booking/createBooking](http://localhost:1000/api/booking/createBooking).\n\n### Request Body\n\n- `bookingName` (string, required): The name of the booking.\n- `roomIds` (array, required): An array of room IDs for the booking.\n- `customerId` (string, required): The ID of the customer for the booking.\n- `status` (string, required): The status of the booking.\n- `payment` (number, required): The total payment for the booking.\n- `paidAmount` (number, required): The amount already paid for the booking.\n- `paymentFlag` (string, required): The payment flag for the booking.\n- `startDate` (string, required): The start date of the booking.\n- `endDate` (string, required): The end date of the booking.\n    \n\n### Response\n\nUpon successful creation of the booking, the API will respond with a message:\n\n```\n{\n    \"message\": \"Booking created successfully.\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Create Booking Response",
+							"originalRequest": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n       \"bookingName\": \"Harry\",\n      \"roomIds\": [\"658c83f4b30cbe308314775b\"],\n      \"customerId\": \"658ce56fa92d30026014b5c0\",\n      \"status\": \"pending\",\n      \"payment\": 7000,\n      \"paidAmount\": 0,\n      \"paymentFlag\": \"false\",\n      \"startDate\": \"28-Dec-2023\",\n      \"endDate\": \"29-Dec-2023\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1000/api/booking/createBooking",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"booking",
+										"createBooking"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-kt4IjiVSjJWQFRv7VnpmyUYhKbA\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 06:43:19 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Booking created successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Get Booking By Id",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/booking/getBooking/68ff7978a7d23280c3357e5c",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"booking",
+								"getBooking",
+								"68ff7978a7d23280c3357e5c"
+							]
+						},
+						"description": "This endpoint makes an HTTP GET request to retrieve the details of a specific booking identified by the booking ID in the URL. The response contains information such as the booking name, room IDs, customer ID, status, payment details, start and end dates, creation and modification timestamps, as well as the creators' and modifiers' details."
+					},
+					"response": [
+						{
+							"name": "Get Booking By Id Response",
+							"originalRequest": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1000/api/booking/getBooking/658d190734ce8f55b289a050",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"booking",
+										"getBooking",
+										"658d190734ce8f55b289a050"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "414"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"19e-P4tp7ruboFGlkIanPexSdKek2y0\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 06:45:09 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"_id\": \"658d190734ce8f55b289a050\",\n    \"bookingName\": \"Harry\",\n    \"roomIds\": [\n        \"658c83f4b30cbe308314775b\"\n    ],\n    \"customerId\": \"658ce56fa92d30026014b5c0\",\n    \"status\": \"pending\",\n    \"payment\": 7000,\n    \"paidAmount\": 0,\n    \"paymentFlag\": false,\n    \"startDate\": \"2023-12-27T19:00:00.000Z\",\n    \"endDate\": \"2023-12-28T19:00:00.000Z\",\n    \"createdAt\": \"2023-12-28T06:43:19.666Z\",\n    \"modifiedAt\": \"2023-12-28T06:43:19.666Z\",\n    \"createdBy\": \"Zulfiqar\",\n    \"modifiedBy\": \"Zulfiqar\",\n    \"__v\": 0\n}"
+						}
+					]
+				},
+				{
+					"name": "Update Booking",
+					"request": {
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \n    \"payment\":2000\n    \n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{base_url}}/api/booking/updateBooking/68ff7978a7d23280c3357e5c",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"booking",
+								"updateBooking",
+								"68ff7978a7d23280c3357e5c"
+							]
+						},
+						"description": "This endpoint allows you to update a specific booking by sending an HTTP PUT request to the given URL. The request should include the booking ID in the URL and the updated feilds in the request body.\n\n### Request Body\n\n- paidAmount (number): The updated amount paid for the booking.\n    \n\n### Response\n\nUpon a successful update, the response will include a message indicating that the booking was updated successfully.\n\nExample:\n\n``` json\n{\n    \"message\": \"Booking updated successfully.\"\n}\n\n ```"
+					},
+					"response": [
+						{
+							"name": "Update Booking Response",
+							"originalRequest": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n    \"paidAmount\":1000\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "http://localhost:1000/api/booking/updateBooking/658d190734ce8f55b289a050",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"booking",
+										"updateBooking",
+										"658d190734ce8f55b289a050"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-l0Km1MA5dHqsG+j2jIS9r2vC8zE\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 06:45:29 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Booking updated successfully.\"\n}"
+						}
+					]
+				},
+				{
+					"name": "Delete Booking",
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/booking/deleteBooking/68ff7978a7d23280c3357e5c",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"booking",
+								"deleteBooking",
+								"68ff7978a7d23280c3357e5c"
+							]
+						},
+						"description": "This endpoint sends an HTTP DELETE request to delete a specific booking identified by the provided booking ID. The booking ID is included in the URL path. The request does not include a request body.\n\nThe response will have a status code of 200, indicating a successful deletion, and will include a JSON object with a \"message\" key. The value of the \"message\" key will indicate the outcome of the deletion operation.\n\n### Response\n\n- `message`: A string indicating the outcome of the deletion operation. For example, \"Booking deleted successfully.\""
+					},
+					"response": [
+						{
+							"name": "Delete Booking Response",
+							"originalRequest": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "http://localhost:1000/api/booking/deleteBooking/658d190734ce8f55b289a050",
+									"protocol": "http",
+									"host": [
+										"localhost"
+									],
+									"port": "1000",
+									"path": [
+										"api",
+										"booking",
+										"deleteBooking",
+										"658d190734ce8f55b289a050"
+									]
+								}
+							},
+							"status": "OK",
+							"code": 200,
+							"_postman_previewlanguage": "json",
+							"header": [
+								{
+									"key": "X-Powered-By",
+									"value": "Express"
+								},
+								{
+									"key": "Access-Control-Allow-Origin",
+									"value": "http://localhost:3000"
+								},
+								{
+									"key": "Vary",
+									"value": "Origin"
+								},
+								{
+									"key": "Access-Control-Allow-Credentials",
+									"value": "true"
+								},
+								{
+									"key": "Content-Type",
+									"value": "application/json; charset=utf-8"
+								},
+								{
+									"key": "Content-Length",
+									"value": "43"
+								},
+								{
+									"key": "ETag",
+									"value": "W/\"2b-F9nad8mq9NrlOi0JuCEdGbGRVq0\""
+								},
+								{
+									"key": "Date",
+									"value": "Thu, 28 Dec 2023 06:45:57 GMT"
+								},
+								{
+									"key": "Connection",
+									"value": "keep-alive"
+								},
+								{
+									"key": "Keep-Alive",
+									"value": "timeout=5"
+								}
+							],
+							"cookie": [],
+							"body": "{\n    \"message\": \"Booking deleted successfully.\"\n}"
+						}
+					]
+				}
+			]
+		}
+	],
+	"variable": [
+		{
+			"key": "base_url",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
